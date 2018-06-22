@@ -1,4 +1,4 @@
-function [data, text = loadQasperMetaData(filename)
+function [data, text] = loadQasperMetaData(filename)
 
 jsonText = fileread(filename);
 jsonStruct = jsondecode(jsonText);
