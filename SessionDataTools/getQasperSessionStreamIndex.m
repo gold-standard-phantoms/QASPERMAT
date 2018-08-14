@@ -25,6 +25,7 @@ streamIndex.PerfusateTemperatureA = find(strcmp(streamNames, 'perfusate_temperat
 streamIndex.PerfusateTemperatureB = find(strcmp(streamNames, 'perfusate_temperature_out'));
 streamIndex.PCBTemperatureA = find(strcmp(streamNames, 'pcb_temperature_in'));
 streamIndex.PCBTemperatureB = find(strcmp(streamNames, 'pcb_temperature_out'));
+streamIndex.DrivingStatus = find(strcmp(streamNames, 'driving_status'));
 	
 
 	

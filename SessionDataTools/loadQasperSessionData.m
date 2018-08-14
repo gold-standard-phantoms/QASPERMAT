@@ -40,8 +40,13 @@ if(~isempty(jsonStruct.data_streams))
 
 	for n = 1:nDataStreams
 		data.Stream(n).TimestampOffset = convertQasperControlSerialDateNumber(jsonStruct.data_streams(n).timestamp_offset); %convert serial date number to matlab format (fractional days since 01/01/2000)
-		data.Stream(n).Samples = double(typecast(swapbytes(matlab.net.base64decode(jsonStruct.data_streams(n).data_base64)), 'single')); %decode base64 data to float32, cast to double.
-		data.Stream(n).Elapsed = double(typecast(swapbytes(matlab.net.base64decode(jsonStruct.data_streams(n).timestamps_base64)), 'single')); %decode base64 timestamps to float32, cast to double
+		samples = double(typecast(swapbytes(matlab.net.base64decode(jsonStruct.data_streams(n).data_base64)), 'single')); %decode base64 data to float32, cast to double.
+		elapsed = double(typecast(swapbytes(matlab.net.base64decode(jsonStruct.data_streams(n).timestamps_base64)), 'single')); %decode base64 timestamps to float32, cast to double
+		[uniqueElapsed, uniqueIndexes] = unique(elapsed, 'last'); %samples are timestamped by the Qasper Control software, and the phantom can send multiple samples at once.  So, if a duplicate exists only use the last sample obtained for a given timestamp.
+		
+		data.Stream(n).Samples = samples(uniqueIndexes); 
+		data.Stream(n).Elapsed = uniqueElapsed;
+		
 		data.Stream(n).Name = jsonStruct.data_streams(n).stream_name; %copy stream name.
 		[friendlyname, units] = friendlyQasperSessionStreamName(data.Stream(n).Name);
 		data.Stream(n).fName = friendlyname;
