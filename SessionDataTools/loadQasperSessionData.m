@@ -3,7 +3,7 @@ function [data, jsonStruct] = loadQasperSessionData(filename)
 %
 % Description: Loads in QASPER json session data, converts base64 streams to
 % double precision, converts timestamps to Matlab format serial data
-% numbers.
+% numbers.  Returned timestamps are in UTC
 %
 % Assumptions: Supplied json file is created by Gold Standard Phantom's QASPER Control software
 %
@@ -44,8 +44,8 @@ if(~isempty(jsonStruct.data_streams))
 		elapsed = double(typecast(swapbytes(matlab.net.base64decode(jsonStruct.data_streams(n).timestamps_base64)), 'single')); %decode base64 timestamps to float32, cast to double
 		[uniqueElapsed, uniqueIndexes] = unique(elapsed, 'last'); %samples are timestamped by the Qasper Control software, and the phantom can send multiple samples at once.  So, if a duplicate exists only use the last sample obtained for a given timestamp.
 		
-		data.Stream(n).Samples = samples(uniqueIndexes); 
-		data.Stream(n).Elapsed = uniqueElapsed;
+		data.Stream(n).Samples = samples(uniqueIndexes).'; 
+		data.Stream(n).Elapsed = uniqueElapsed.';
 		
 		data.Stream(n).Name = jsonStruct.data_streams(n).stream_name; %copy stream name.
 		[friendlyname, units] = friendlyQasperSessionStreamName(data.Stream(n).Name);
@@ -62,4 +62,18 @@ if(~isempty(jsonStruct.log_entries))
 		data.LogEntries(n).LogElapsed = (data.LogEntries(n).LogTime - data.Stream(1).TimestampOffset)*60*60*24; %determine log time in seconds w.r.t. start of streamed data.
 	end
 end
+
+%if present, copy across the synchronisation timestamp and correct the
+%time/date
+if(~isempty(jsonStruct.sync_timestamp))
+    data.SyncTimestamp = convertQasperControlSerialDateNumber(jsonStruct.sync_timestamp);
+    data.SyncDateAndTime = datestr(data.SyncTimestamp);
+end
+
+%if present, copy across timezone information
+if(~isempty(jsonStruct.local_time_zone))
+    data.LocalTimeZone = jsonStruct.local_time_zone;
+end
+    
+    
 data.SessionDateAndTime = datestr(data.Stream(1).TimestampOffset);
