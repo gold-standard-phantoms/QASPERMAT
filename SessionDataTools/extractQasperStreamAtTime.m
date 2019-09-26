@@ -11,7 +11,10 @@ function [ extractedData ] = extractQasperStreamAtTime(phantomSessionData, start
 
 %adjust the start time based on the offset
 dnStart = datenum(startTime + timeOffset);
+dnStop = datenum(startTime + duration(0,0,Duration) + timeOffset);
+
 sid = 60*60*24;
+
 
 for n = 1:length(phantomSessionData.Stream)
     samples = phantomSessionData.Stream(n).Samples;
@@ -21,7 +24,7 @@ for n = 1:length(phantomSessionData.Stream)
     
     
     startIndex = dsearchn(toff + elapsed/sid, dnStart);
-    endIndex = dsearchn(toff + elapsed/sid, dnStart + Duration/sid);
+    endIndex = dsearchn(toff + elapsed/sid, dnStop);
     
     extractedData(n).Name = phantomSessionData.Stream(n).Name;
     extractedData(n).fName = phantomSessionData.Stream(n).fName;
