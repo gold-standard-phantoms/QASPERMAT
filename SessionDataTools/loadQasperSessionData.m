@@ -28,6 +28,9 @@ data.QasperControlSoftwareVersion = jsonStruct.software_version;
 if(isfield(jsonStruct, 'firmware_info')) %firmware info not present on old versions so check if this exists.
 	data.FirmwareInfo.FirmwareName = jsonStruct.firmware_info.firmware_name;
 	data.FirmwareInfo.FirmwareVersion = jsonStruct.firmware_info.firmware_version;
+else
+    data.FirmwareInfo.FirmwareName = [];
+    data.FirmwareInfo.FirmwareVersion = [];
 end
 data.md5Hash = jsonStruct.md5_hash;
 
@@ -68,12 +71,16 @@ end
 if(~isempty(jsonStruct.sync_timestamp))
     data.SyncTimestamp = convertQasperControlSerialDateNumber(jsonStruct.sync_timestamp);
     data.SyncDateAndTime = datestr(data.SyncTimestamp);
+else
+    data.SyncTimestamp = [];
+    data.SyncDateAndtime = [];
 end
 
 %if present, copy across timezone information
 if(~isempty(jsonStruct.local_time_zone))
     data.LocalTimeZone = jsonStruct.local_time_zone;
+else
+    data.LocalTimeZone = [];
 end
-    
     
 data.SessionDateAndTime = datestr(data.Stream(1).TimestampOffset);
