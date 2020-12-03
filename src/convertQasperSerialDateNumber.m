@@ -1,8 +1,8 @@
-function out = convertQasperControlSerialDateNumber(in)
+function out = convertQasperSerialDateNumber(in)
 %% Function Name: convertQasperControlSerialDateNumber
 %
 % Description: Qasper Control provides timestamps as seconds elapsed since
-% 01/01/1970.  Matlab uses fractional days since 01/01/2000.  This function
+% 01/01/1970.  Matlab uses fractional days since 01/01/0000.  This function
 % converts Qasper Control serial date numbers to Matlab style.
 %
 % Assumptions: Provided serial date number is seconds elapsed since
@@ -12,7 +12,7 @@ function out = convertQasperControlSerialDateNumber(in)
 %	in - serial date number (seconds since 01/01/1970)
 %
 % Outputs:
-%	out - serial date number (fractional days since 01/01/2000)
+%	out - serial date number (fractional days since 01/01/0000)
 
 % $Date: June 25, 2018
 
