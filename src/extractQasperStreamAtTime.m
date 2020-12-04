@@ -13,7 +13,7 @@ function [ extractedData ] = extractQasperStreamAtTime(phantomSessionData, start
 dnStart = datenum(startTime + timeOffset);
 dnStop = datenum(startTime + duration(0,0,Duration) + timeOffset);
 
-sid = 60*60*24;
+sid = 60*60*24; % the number of seconds in a day
 
 
 for n = 1:length(phantomSessionData.Stream)
