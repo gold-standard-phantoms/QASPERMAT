@@ -1,8 +1,8 @@
 function [friendlyName, units] = friendlyQasperSessionStreamName(sessionDataName)
 %% Function Name: friendlyQasperSessionStreamName
-%
-%
-%
+% 
+% Description: Returns friendly names and units for the QASPER streams.
+% 
 %
 
 % $Date: June 25, 2018
