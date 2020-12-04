@@ -4,8 +4,8 @@ The QASPER Pump Control software saves the logged data as a JSON file.  The func
 this library provide a means to load this data into MATLAB for further analysis.
 
 ## Requirements
-Requires the function jsonencode which was introduced in MATLAB R2016b
-Uses the class datetime which was introduced in MATLAB R2014b
+- Requires the function jsonencode which was introduced in MATLAB R2016b
+- Uses the class datetime which was introduced in MATLAB R2014b
 
 ## Getting Started
 To see how to use the functions it is recommended to look at example.m.
@@ -20,6 +20,7 @@ To see how to use the functions it is recommended to look at example.m.
 
 ## Changelog
 
+[1.0.0] 04/12/2020
 - Added examples.m demonstrating use of the library
 - Function for loading in the data
 - Function for converting python timestamps
